@@ -9,8 +9,10 @@
   "author": "Peter",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-edge": "^1.0.0",
+    "mongoose": "^5.4.0",
     "nodemon": "^1.18.9",
     "startbootstrap-clean-blog": "^5.0.2"
   }
