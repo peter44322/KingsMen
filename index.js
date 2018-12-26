@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage})
 
 
-const port = 8080;
+const port =process.env.PORT || 8080 ;
 var uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI;
 
 mongoose.connect( uri || 'mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
