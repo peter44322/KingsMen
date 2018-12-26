@@ -23,9 +23,9 @@ var upload = multer({ storage: storage})
 const port = 8080;
 var uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI;
 
-mongoose.connect('mongodb://localhost:27017/node-blog' || uri, { useNewUrlParser: true })
+mongoose.connect( uri || 'mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
     .then(() => console.log( 'You are now connected to Mongo!'))
-    .catch(err => console.error('Something went wrong', err))
+    .catch(err => console.error('Something went wrong', err));
 
 app.use(express.static('public'));
 app.use(expressEdge);
