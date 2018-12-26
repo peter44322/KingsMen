@@ -23,7 +23,7 @@ var upload = multer({ storage: storage})
 const port = 8080;
 
 
-mongoose.connect('mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost:27017/node-blog' || process.env.MONGOLAB_URI, { useNewUrlParser: true })
     .then(() => console.log( 'You are now connected to Mongo!'))
     .catch(err => console.error('Something went wrong', err))
 
