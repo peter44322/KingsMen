@@ -4,6 +4,7 @@ const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Post = require('./database/models/Post');
+const User = require('./database/models/user');
 const multer = require('multer');
 
 const app = new express();
@@ -48,6 +49,10 @@ app.get('/posts/new', (req, res) => {
     res.render('create')
 });
 
+app.get('/register', (req, res) => {
+    res.render('register')
+});
+
 app.post('/posts/store',upload.single('image'),  (req, res) => {
   var body = req.body
   body.image = req.file.filename;
@@ -56,6 +61,26 @@ app.post('/posts/store',upload.single('image'),  (req, res) => {
      res.redirect('/')
  })
 });
+
+app.post('/user/store',  (req, res) => {
+
+  if (req.body.email &&
+  req.body.name &&
+  req.body.password &&
+  req.body.passwordConf) {
+  var userData = {
+    email: req.body.email,
+    name: req.body.name,
+    password: req.body.password,
+    passwordConf: req.body.passwordConf,
+  }
+  //use schema.create to insert data into the db
+  User.create(userData, function (err, user) {
+     res.redirect('/');
+  });
+}
+});
+
 
 app.get('/post/:id', async (req, res) => {
     const post = await Post.findById(req.params.id)
