@@ -4,7 +4,7 @@ const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Post = require('./database/models/Post');
-const User = require('./database/models/user');
+const User = require('./database/models/User');
 const multer = require('multer');
 
 const app = new express();
