@@ -4,7 +4,20 @@ const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Post = require('./database/models/Post');
+const multer = require('multer');
+
 const app = new express();
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'image' + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage})
+
 
 const port = 8080;
 
@@ -35,8 +48,11 @@ app.get('/posts/new', (req, res) => {
     res.render('create')
 });
 
-app.post('/posts/store', (req, res) => {
-  Post.create(req.body, (error, post) => {
+app.post('/posts/store',upload.single('image'),  (req, res) => {
+  var body = req.body
+  body.image = req.file.filename;
+  console.log(body);
+  Post.create(body, (error, post) => {
      res.redirect('/')
  })
 });
