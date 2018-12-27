@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const Post = require('./database/models/Post');
 const User = require('./database/models/User');
 const multer = require('multer');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+var flash = require('express-flash');
 
 const app = new express();
 var storage = multer.diskStorage({
@@ -15,10 +18,39 @@ var storage = multer.diskStorage({
     filename: function (req, file, cb) {
         cb(null, 'image' + '-' + Date.now())
   }
-})
+});
+//app.use(session({secret: 'your secret', saveUninitialized: true, resave: false}));
 
-var upload = multer({ storage: storage})
+var upload = multer({ storage: storage});
+var sessionStore = new session.MemoryStore;
 
+app.use(cookieParser('secretString'));
+app.use(session({
+    cookie: { maxAge: 60000 },
+    store: sessionStore,
+    saveUninitialized: true,
+    resave: 'true',
+    secret: 'secret'
+}));
+app.use(flash());
+
+function requiresLogin(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  } else {
+    req.flash('notify', {info:'You must Login To Make that Action.'});
+
+    return res.redirect('/login');
+  }
+}
+
+function requiresLogout(req, res, next) {
+  if (req.session && req.session.userId) {
+    return res.redirect('/');
+  } else {
+    return next();
+  }
+}
 
 const port =process.env.PORT || 8080 ;
 var uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI;
@@ -37,23 +69,44 @@ app.use(bodyParser.urlencoded({
 
 
 
-app.get('/',  async (req, res)=>  {
-  const posts = await Post.find({})
+
+app.use(function (req, res, next) {
+  res.locals.notify =req.flash('notify')[0];
+  console.log(req.flash('notify')[0]);
+  next();
+});
+
+app.get('/' ,async (req, res)=>  {
+  const posts = await Post.find({});
    res.render('index', {
        posts
    });
 });
 
-
-app.get('/posts/new', (req, res) => {
+app.get('/logout', function(req, res, next) {
+  if (req.session) {
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    });
+  }
+});
+app.get('/posts/new',requiresLogin, (req, res) => {
     res.render('create')
 });
 
-app.get('/register', (req, res) => {
+app.get('/register',requiresLogout, (req, res) => {
     res.render('register')
 });
 
-app.post('/posts/store',upload.single('image'),  (req, res) => {
+app.get('/login',requiresLogout, (req, res) => {
+    res.render('login')
+});
+
+app.post('/posts/store',requiresLogin,upload.single('image'),  (req, res) => {
   var body = req.body
   body.image = req.file.filename;
   console.log(body);
@@ -62,7 +115,7 @@ app.post('/posts/store',upload.single('image'),  (req, res) => {
  })
 });
 
-app.post('/user/store',  (req, res) => {
+app.post('/user/store',requiresLogout,  (req, res) => {
 
   if (req.body.email &&
   req.body.name &&
@@ -79,6 +132,20 @@ app.post('/user/store',  (req, res) => {
      res.redirect('/');
   });
 }
+});
+
+app.post('/login',requiresLogout, (req, res) => {
+  User.authenticate(req.body.email , req.body.password ,(err,user,next)=>{
+    if (err || !user) {
+        req.flash('notify',{error:"Wrong credentials "});
+        return res.redirect('back');
+       }  else {
+         console.log(user._id);
+         req.session.userId = user._id;
+         req.flash('notify',{success:"You are Loged in"});
+         return res.redirect('/');
+  }
+});
 });
 
 
