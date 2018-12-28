@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
-var UserSchema = new mongoose.Schema({
+var Schema = mongoose.Schema;
+
+
+var UserSchema = Schema({
   email: {
     type: String,
     unique: true,
@@ -19,7 +22,8 @@ var UserSchema = new mongoose.Schema({
   passwordConf: {
     type: String,
     required: true,
-  }
+  },
+  
 });
 
 UserSchema.pre('save', function (next) {

@@ -3,7 +3,7 @@ var router = express.Router();
 var AuthController = require('../controllers/AuthController');
 const Middleware = require('../middleware/Auth');
 
-router.get('/logout',AuthController.logout);
+router.get('/logout',Middleware.requiresLogin,AuthController.logout);
 router.get('/login',Middleware.requiresLogout,AuthController.login);
 router.post('/login',AuthController.loginData);
 

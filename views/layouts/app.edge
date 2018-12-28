@@ -36,16 +36,23 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="/">
+                @if(user)
+                {{user.name}}
+                @else
+                Home
+                @endif
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="about.html">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.html">Sample Post</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              @if(user)
+              <a class="nav-link" href="/posts/create">Add Post</a>
+              @else
+              <a class="nav-link" href="/login">login</a>
+              @endif
             </li>
           </ul>
         </div>
@@ -53,7 +60,10 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/home-bg.jpg2')">
+    @section('image')
+    <header class="masthead" style="background-image: url('https://www.huntsmansavilerow.com/wp-content/uploads/2016/11/Huntsman-Kingsman-Image-1.jpg')">
+
+     @endsection
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
@@ -128,6 +138,8 @@
     <script src="/js/jqBootstrapValidation.js"></script>
 
     <script type="text/javascript" src="/js/custom/alert.js"></script>
+    <script type="text/javascript" src="/js/custom/trim.js"></script>
+
     <script type="text/javascript">
        var notifications = {
         @if(notify.error)
@@ -148,7 +160,7 @@
       $("html").animate({ scrollTop: $('.focus').offset().top }, 1000);
     </script>
     <script>
-      $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+
     </script>
   </body>
 

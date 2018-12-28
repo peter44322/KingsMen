@@ -14,17 +14,31 @@ Fci Project :D
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form action="/posts/store" method="POST" enctype="multipart/form-data">
+      <form  method="POST"
+       @if(post)
+        action="/posts/update"
+       @else
+        action="/posts/store"
+       @endif
+       enctype="multipart/form-data">
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Title</label>
-            <input type="text" name="title" placeholder="Title" class="form-control">
+            <input type="text" value="
+            @if(post)
+            {{post.title}}
+            @endif
+            " name="title" placeholder="Title" class="form-control">
           </div>
         </div>
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Description</label>
-            <input type="text" name="description" placeholder="Description" class="form-control">
+            <input type="text" value="
+            @if(post)
+            {{post.description}}
+            @endif
+             " name="description" placeholder="Description" class="form-control">
           </div>
         </div>
         <div class="control-group">
@@ -33,8 +47,20 @@ Fci Project :D
             <input name="image" type="file" class="form-control">
           </div>
         </div>
+
+        <input type="hidden" name="user" value="{{user._id}}">
+
+        @if(post)
+         <input type="hidden" name="post_id" value="{{post._id}}">
+        @endif
         <div class="form-group my-4 text-center">
+
+          @if(post)
+           <button class="btn btn-primary">Update Post</button>
+          @else
           <button class="btn btn-primary">Create Post</button>
+          @endif
+
         </div>
       </form>
     </div>

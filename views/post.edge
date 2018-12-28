@@ -7,19 +7,29 @@
 @section('description')
 Fci Project :D
 @endsection
-
+@section('image')
+<header class="masthead" style="background-image: url('/uploads/{{post.image}}')">
+ @endsection
 
 @section('content')
 <article>
   <div class="container">
     <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <img width="100%" class="" src="/uploads/{{post.image}}" alt="">
-      </div>
+
       <div class="col-lg-8 col-md-10 mx-auto">
         {{ post.description }}
       </div>
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="form-group my-4 text-center">
+          <a href="/posts/edit/{{ post._id }}" class="btn btn-primary">Edit</a>
+          <button class="btn btn-danger">Delete</button>
+
+        </div>
+
+      </div>
     </div>
   </div>
+
+
 </article>
 @endsection

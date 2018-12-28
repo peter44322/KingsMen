@@ -6,7 +6,6 @@ const expressEdge = require('express-edge');
 const bodyParser = require('body-parser');
 const NotifyMiddleware = require('./middleware/notify');
 module.exports = function(app,express){
-  this.port =process.env.PORT || 8080 ;
   var sessionStore = new session.MemoryStore;
   var uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI;
 
@@ -36,10 +35,4 @@ module.exports = function(app,express){
 
   //middleware
   app.use(NotifyMiddleware.subscribe);
-
-  this.listen = function(){
-    app.listen(this.port,function() {
-      console.log('listening on '+port);
-    });
-  }
 }

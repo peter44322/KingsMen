@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-
-const PostSchema = new mongoose.Schema({
+var Schema = mongoose.Schema;
+const PostSchema = Schema({
     title: String,
     description: String,
-    image: String
+    image: String,
+    user : { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 const Post = mongoose.model('Post', PostSchema);
