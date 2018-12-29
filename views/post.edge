@@ -17,16 +17,24 @@ Fci Project :D
     <div class="row">
 
       <div class="col-lg-8 col-md-10 mx-auto">
+        <span class="price alert-primary">
+          Price : {{ post.price }} $
+        </span>
+      </div>
+      <div class="col-lg-8 col-md-10 mx-auto">
         {{ post.description }}
       </div>
+
+      @if(post.user.toString() == user._id)
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="form-group my-4 text-center">
           <a href="/posts/edit/{{ post._id }}" class="btn btn-primary">Edit</a>
-          <button class="btn btn-danger">Delete</button>
+          <a href="/posts/delete/{{ post._id }}" class="btn btn-danger">Delete</a>
 
         </div>
 
       </div>
+      @endif
     </div>
   </div>
 

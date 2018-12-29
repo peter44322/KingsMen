@@ -8,6 +8,6 @@ router.post('/store',Middleware.requiresLogin,PostController.upload.single('imag
 router.get('/edit/:id',Middleware.requiresLogin,PostController.edit);
 router.post('/update',PostController.upload.single('image'),PostController.update);
 router.get('/:id',PostController.show);
-
+router.get('/delete/:id',PostController.delete);
 
 module.exports = router;

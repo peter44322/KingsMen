@@ -4,6 +4,7 @@ const PostSchema = Schema({
     title: String,
     description: String,
     image: String,
+    price : Number,
     user : { type: Schema.Types.ObjectId, ref: 'User' }
 });
 

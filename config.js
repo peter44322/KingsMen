@@ -20,7 +20,6 @@ module.exports = function(app,express){
   app.use(flash());
 
 
-
   mongoose.connect( uri || 'mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
       .then(() => console.log( 'You are now connected to Mongo!'))
       .catch(err => console.error('Something went wrong', err));

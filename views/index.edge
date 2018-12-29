@@ -21,16 +21,20 @@ Fci Project :D
         </div>
         <div class="col-md-8">
           <div class="post-preview">
-            <a href="/posts/{{ post._id }}">
+            <a  href="/posts/{{ post._id }}">
               <h2 class="post-title">
-                {{post.title}} - {{post.user.name}}
+                {{post.title}}
               </h2>
+
+              <span class="alert-primary price">
+                 {{post.price}} $
+              </span>
               <h3 class="post-subtitle">
-                {{post.description}}
+                {{{post.description.trunc(50)}}}
               </h3>
             </a>
             <p class="post-meta">Posted by
-              <a href="#">Start Bootstrap</a>
+              <a href="#">{{post.user.name}}</a>
               on September 24, 2018</p>
           </div>
         </div>
@@ -42,9 +46,9 @@ Fci Project :D
 
 
       <!-- Pager -->
-      <div class="clearfix">
+      <!-- <div class="clearfix">
         <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

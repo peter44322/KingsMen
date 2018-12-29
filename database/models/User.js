@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var Schema = mongoose.Schema;
-
+var Post = require('./Post');
 
 var UserSchema = Schema({
   email: {
@@ -23,7 +23,8 @@ var UserSchema = Schema({
     type: String,
     required: true,
   },
-  
+
+
 });
 
 UserSchema.pre('save', function (next) {
@@ -48,6 +49,13 @@ UserSchema.statics.authenticate = function (email, password, callback) {
         }
       });
 }
+
+UserSchema.methods.isMyPost = function(post) {
+  Post.findById(post).populate('user').exec(function (err,post) {
+    return post.user == this._id ;
+  });
+    return false;
+};
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

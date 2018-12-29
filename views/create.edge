@@ -41,6 +41,17 @@ Fci Project :D
              " name="description" placeholder="Description" class="form-control">
           </div>
         </div>
+
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+            <label>Price</label>
+            <input type="number" value="
+            @if(post)
+            {{post.price}}
+            @endif
+             " name="price" placeholder="Price" class="form-control">
+          </div>
+        </div>
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Image</label>

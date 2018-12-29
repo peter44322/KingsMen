@@ -1,6 +1,8 @@
 const Post = require('../database/models/Post');
 const multer = require('multer');
 const Flash = require('../helper/Flash');
+const UserController = require('./UserController');
+const User = require('../database/models/User');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads')
@@ -25,15 +27,24 @@ exports.store = function(req,res,next){
  });
 }
 
-exports.show = async function(req,res,next){
-  const post = await Post.findById(req.params.id);
-  //console.log(post);
-  res.render('post', {post});
+exports.show =  function(req,res,next){
+    Post.findById(req.params.id,function (err,post) {
+    //  var c = User.findById(req.session.userId).isMyPost(post);
+      // var dog = new User({ _id: req.session.userId });
+      // console.log(dog.isMyPost(post._id));
+      res.render('post', {post});
+   });
 }
-
+exports.delete =  function(req,res,next){
+   Post.findByIdAndRemove(req.params.id, function (err) {
+        if (err) return next(err);
+        Flash.success( req,' Deleted successfully!');
+        res.redirect('/');
+    })
+}
 exports.update = function(req,res,next){
   var body = req.body
-  console.log(body);
+//  console.log(body);
   if(req.file&&req.file.filename){
     body.image = req.file.filename;
   }

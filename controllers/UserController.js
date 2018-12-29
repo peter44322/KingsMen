@@ -14,3 +14,8 @@ exports.store = function(req,res,next){
   });
 }
 }
+
+
+exports.loggedIn = function(req,res){
+   return User.findById(req.session.userId);
+}
