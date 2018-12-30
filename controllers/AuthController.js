@@ -26,7 +26,7 @@ exports.loginData = function(req, res,next) {
        }  else {
          console.log(user._id);
          req.session.userId = user._id;
-         req.flash('notify',{success:"You are Loged in"});
+         req.flash('notify',{success:"You are Logged in"});
          return res.redirect('/');
   }
 });

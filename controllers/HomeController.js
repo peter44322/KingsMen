@@ -13,3 +13,7 @@ exports.index =async function(req, res) {
        posts
    });
 };
+
+exports.about = function (req,res) {
+  res.render('about');
+}

@@ -1,12 +1,28 @@
+function success(msg) {
+  iziToast.success({
+      title: 'OK',
+      message:msg ,
+  });
+}
+function error(msg) {
+  iziToast.error({
+      title: 'Error',
+      message: msg,
+  });
+}
+
+function sendAnError(field,msg){
+  error(msg);
+  field.focus();
+  return false;
+}
+
 function notify(notifications) {
   if(notifications.errors){
     var errors = notifications.errors.isArray ?notifications.errors: [notifications.errors] ;
 
     errors.forEach(function(item) {
-      iziToast.error({
-          title: 'Error',
-          message: item,
-      });
+      error(item);
     });
   }
 
@@ -18,10 +34,7 @@ function notify(notifications) {
   }
 
   if(notifications.success){
-    iziToast.success({
-        title: 'OK',
-        message:notifications.success ,
-    });
+    success(notifications.success);
   }
 
   if(notifications.warn){

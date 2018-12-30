@@ -10,7 +10,12 @@ exports.store = function(req,res,next){
     passwordConf: req.body.passwordConf,
   }
   User.create(userData, function (err, user) {
-     res.redirect('/');
+    if (err) {
+      req.flash('notify',{error:err.errmsg});
+       return res.redirect('back');
+    }
+    req.flash('notify',{success:"Welcome "+ user.name});
+     return res.redirect('/login');
   });
 }
 }

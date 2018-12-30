@@ -14,19 +14,19 @@ Fci Project :D
 <d<div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form action="/user/store" method="POST" onsubmit="return checkform(this);">
+      <form action="/users/store" method="POST" onsubmit="return checkform(this);">
 
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Name</label>
-            <input type="text" size = "32" name="name" placeholder="Name" class="form-control" >
+            <input type="text"  size = "32" name="name" placeholder="Name" class="form-control" >
           </div>
         </div>
 
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Email</label>
-            <input type="text" size="32" name="email" placeholder="Email" class="form-control" >
+            <input type="email"  size="32" name="email" placeholder="Email" class="form-control" >
           </div>
         </div>
 
@@ -37,7 +37,7 @@ Fci Project :D
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Address</label>
-            <input type="text" name="address" placeholder="Address" class="form-control">
+            <input type="text"  name="address" placeholder="Address" class="form-control">
           </div>
         </div>
 
@@ -46,7 +46,7 @@ Fci Project :D
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Phone Number</label>
-            <input type="text" name="phone_number" placeholder="Phone Number" class="form-control">
+            <input type="text"  name="phone_number" placeholder="Phone Number" class="form-control">
           </div>
         </div>
 
@@ -54,14 +54,14 @@ Fci Project :D
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Password</label>
-            <input type="password" size = "32" name="password" placeholder="Password" class="form-control">
+            <input type="password"  size = "32" name="password" placeholder="Password" class="form-control">
           </div>
         </div>
 
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Confirm Password</label>
-            <input type="password" size = "32" name="passwordConf" placeholder="Confirm Password" class="form-control">
+            <input type="password"  size = "32" name="passwordConf" placeholder="Confirm Password" class="form-control">
           </div>
         </div>
          <div class="form-group my-4 text-center">
@@ -73,44 +73,33 @@ Fci Project :D
   </div>
 </div>
 
+@endsection
+
+@section('script')
+
 <script type="text/javascript">
   function checkform (form) {
-    console.log(form);
-    form.email.focus();
-    var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-    if (form.email.value == ""){
-      alert("error : your email is empty");
-      form.email.focus();
-      return false;
-    }else if(re.test(form.email.value)){
-      alert("error : your email contains invalid charcater");
-      form.email.focus();
-      return false;
-    }
 
     if (form.name.value == ""){
-      alert("error : your name is empty");
-      form.name.focus();
-      return false;
+      return sendAnError(form.name,'Name is required');
+    }
+    if (form.email.value == ""){
+      return sendAnError(form.email,'Email is required');
+    }
+    if (form.phone_number.value == ""){
+      return sendAnError(form.phone_number,'Phone Number is required');
     }
 
-
-
-    if(form.password.value == "")
-    {
-      alert("error : your input is empty");
-        return false;
+    if(form.password.value == ""){
+      return sendAnError(form.password,'Please Enter password');
     }else if (form.password.value != form.passwordConf.value  ){
-      alert("error : your password don't match ...");
-      form.password.focus();
-      return false;
+      return sendAnError(form.password,"Password Dosn't Match");
     }else if(form.password.length<6 || form.passwordConf.length<6 ){
-      alert("error :ypur password is less than 6 number ... ");
-      form.input.focus();
-      return false;
+      return sendAnError(form.password,'Password cannot be less than 6 number');
     }
+    success('Sending ..');
     return true;
   }
  </script>
+
 @endsection

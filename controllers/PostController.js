@@ -23,21 +23,26 @@ exports.store = function(req,res,next){
   console.log(body);
   body.image = req.file.filename;
   Post.create(body, (error, post) => {
-     res.redirect('/')
+    Flash.success( req,' Created successfully!');
+     res.redirect('/posts/'+post._id)
  });
 }
 
 exports.show =  function(req,res,next){
     Post.findById(req.params.id,function (err,post) {
-    //  var c = User.findById(req.session.userId).isMyPost(post);
-      // var dog = new User({ _id: req.session.userId });
-      // console.log(dog.isMyPost(post._id));
-      res.render('post', {post});
+    if (err) {
+      Flash.error(req,'Post Not Found')
+      return res.redirect('/');
+    }
+      return res.render('post', {post});
    });
 }
 exports.delete =  function(req,res,next){
    Post.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
+        if (err){
+          Flash.error(req,'Cannot Delete');
+          return res.redirect('/');
+        }
         Flash.success( req,' Deleted successfully!');
         res.redirect('/');
     })
@@ -49,7 +54,10 @@ exports.update = function(req,res,next){
     body.image = req.file.filename;
   }
  Post.findByIdAndUpdate(body.post_id, {$set: body},function (err, product) {
-        if (err) return next(err);
+   if (err){
+     Flash.error(req,'Cannot Update');
+     return res.redirect('/');
+   }
         Flash.success(req,body.title + ' Updated')
          res.redirect('/');
     });

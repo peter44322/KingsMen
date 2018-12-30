@@ -20,7 +20,7 @@ Fci Project :D
        @else
         action="/posts/store"
        @endif
-       enctype="multipart/form-data">
+       enctype="multipart/form-data" onsubmit="return checkform(this);" >
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
             <label>Title</label>
@@ -77,4 +77,29 @@ Fci Project :D
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+  function checkform (form) {
+
+    if (form.title.value == ""){
+      return sendAnError(form.title,'Title is required');
+    }
+    if (form.description.value == ""){
+      return sendAnError(form.description,'Description is required');
+    }
+    if (form.price.value == ""){
+      return sendAnError(form.price,'Price is required');
+    }
+    if (form.image.value == ""){
+      return sendAnError(form.image,'image is required');
+    }
+
+    success('Sending ..');
+    return true;
+  }
+ </script>
+
 @endsection

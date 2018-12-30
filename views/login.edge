@@ -13,7 +13,7 @@ Fci Project :D
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form action="/login" method="POST" onsubmit="">
+      <form action="/login" method="POST" onsubmit="return checkform(this);">
 
         <div class="control-group">
           <div class="form-group floating-label-form-group controls">
@@ -40,4 +40,23 @@ Fci Project :D
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+  function checkform (form) {
+
+    if (form.email.value == ""){
+      return sendAnError(form.email,'Email is required');
+    }
+    if (form.password.value == ""){
+      return sendAnError(form.password,'Password is required');
+    }
+    success('Sending ..');
+    return true;
+  }
+
+ </script>
+
 @endsection
