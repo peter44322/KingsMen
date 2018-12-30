@@ -5,7 +5,8 @@
 @endsection
 
 @section('description')
-Fci Project :D
+Posted by {{post.user.name}}
+  on {{ post.createdAt.toDateString() }}
 @endsection
 @section('image')
 <header class="masthead" style="background-image: url('/uploads/{{post.image}}')">

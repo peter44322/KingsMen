@@ -29,7 +29,7 @@ exports.store = function(req,res,next){
 }
 
 exports.show =  function(req,res,next){
-    Post.findById(req.params.id,function (err,post) {
+    Post.findById(req.params.id).populate('user').exec(function (err,post) {
     if (err) {
       Flash.error(req,'Post Not Found')
       return res.redirect('/');

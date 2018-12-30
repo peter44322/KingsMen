@@ -5,6 +5,10 @@ const PostSchema = Schema({
     description: String,
     image: String,
     price : Number,
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
     user : { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
